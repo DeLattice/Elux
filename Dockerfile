@@ -18,18 +18,18 @@ RUN curl -L -o xray.zip https://github.com/XTLS/Xray-core/releases/latest/downlo
 # ==========================================
 # 3. core Build Stage
 # ==========================================
-FROM rust:1.91slim AS core
+FROM rust:1.91-slim AS core
 WORKDIR /app
 RUN apt-get update && apt-get install -y pkg-config libssl-dev libsqlite3-dev && rm -rf /var/lib/apt/lists/*
 COPY core/ .
 RUN mkdir -p static
-COPY --from=web /app/dist/web/browser ./static
+COPY --from=web /app/dist/frontend/browser ./static
 RUN RUSTFLAGS=-Awarnings cargo build --release
 
 # ==========================================
 # 4. Final Runtime Stage
 # ==========================================
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
@@ -50,8 +50,8 @@ COPY --from=xray-fetcher /xray/geosite.dat /usr/share/xray/geosite.dat
 ENV XRAY_LOCATION_ASSET=/usr/share/xray
 # ----------------------
 
-COPY --from=core /app/target/release/server ./core
+COPY --from=core /app/target/release/server ./elux-core
 COPY --from=core /app/static ./static
 
 EXPOSE 8400
-CMD ["./core"]
+CMD ["./elux-core"]
