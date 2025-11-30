@@ -1,54 +1,57 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  frontend = pkgs.mkYarnPackage {
-    name = "frontend";
+  # 1. Yarn dependencies
+  frontendDeps = pkgs.yarn2nix.mkYarnDeps {
     src = ./frontend;
-    packageJSON = ./frontend/package.json;
-    yarnLock = ./frontend/yarn.lock;
+  };
+
+  # 2. Frontend build
+  frontend = pkgs.stdenv.mkDerivation {
+    name = "frontend-build";
+    src = ./frontend;
+
+    nativeBuildInputs = [ pkgs.nodejs pkgs.yarn ];
 
     buildPhase = ''
-      export HOME=$(mktemp -d)
-      export NG_CLI_ANALYTICS=false
-
-      cd deps/*
-      ln -sf ../../node_modules node_modules
-      export PATH=$PWD/node_modules/.bin:$PATH
-
-      yarn --offline build
+      export PATH=${frontendDeps}/bin:$PATH
+      echo "🏗️ Building Angular frontend..."
+      yarn run build --output-path=dist/frontend/browser --configuration=production
     '';
 
     installPhase = ''
       mkdir -p $out
-      find . -path "*/dist/*" -type f -print0 | xargs -0 -I {} cp --parents {} $out
-      cp -r deps/*/dist/* $out/
+      cp -r dist/frontend/browser/* $out/
+    '';
+  };
+
+  # 3. Backend (Rust)
+  backend = pkgs.rustPlatform.buildRustPackage {
+    pname = "backend";
+    version = "1.0.0";
+
+    src = ./backend;
+
+    cargoLock = {
+      lockFile = ./backend/Cargo.lock;
+    };
+
+    cargoHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+
+    preBuild = ''
+      echo "🚚 Copying frontend assets..."
+      mkdir -p static
+      cp -r ${frontend}/* static/
     '';
 
-    distPhase = "true";
-    doCheck = false;
+    installPhase = ''
+      mkdir -p $out/bin
+      cp target/release/backend $out/bin/
+    '';
   };
-
 in
-pkgs.rustPlatform.buildRustPackage {
-  pname = "app-backend";
-  version = "0.1.0";
-
-  src = ./backend;
-
-  cargoLock = {
-    lockFile = ./backend/Cargo.lock;
-  };
-
-  nativeBuildInputs = with pkgs; [
-    pkg-config
-  ];
-
-  buildInputs = with pkgs; [
-    openssl
-  ];
-
-  postInstall = ''
-    mkdir -p $out/share/www
-    cp -r ${frontend}/* $out/share/www/
-  '';
+{
+  frontend = frontend;
+  backend = backend;
+  defaultPackage = backend;
 }

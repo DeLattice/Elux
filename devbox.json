@@ -1,12 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
   "packages": {
-    "gnumake": "latest",
-    "nodejs": "latest",
-    "rustup": "latest",
-    "gcc": "latest",
+    "gnumake": "4.4.1",
+    "nodejs": "24.11.1",
+    "rustup": "1.28.0",
+    "gcc": "15.2",
     "sqlite": {
-      "version": "latest",
+      "version": "3.51.1",
       "outputs": ["out"]
     }
   },
