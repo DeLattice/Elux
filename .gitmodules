@@ -1,0 +1,6 @@
+[submodule "core"]
+	path = core
+	url = git@github.com:DeLattice/Elux-core.git
+[submodule "web"]
+	path = web
+	url = git@github.com:DeLattice/Elux-web.git
