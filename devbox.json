@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
+  "packages": {
+    "gnumake": "latest",
+    "nodejs": "latest",
+    "rustup": "latest",
+    "gcc": "latest",
+    "sqlite": {
+      "version": "latest",
+      "outputs": ["out"]
+    }
+  },
+  "shell": {
+    "init_hook": ["rustup default stable"],
+    "scripts": {
+      "build": "make",
+      "run": "make run",
+      "clean": "make clean"
+    }
+  }
+}
