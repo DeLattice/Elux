@@ -1,7 +1,7 @@
 {
   "lockfile_version": "1",
   "packages": {
-    "gcc@latest": {
+    "gcc@15.2": {
       "last_modified": "2025-11-23T21:50:36Z",
       "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261#gcc15",
       "source": "devbox-search",
@@ -89,7 +89,7 @@
       "last_modified": "2025-11-23T21:50:36Z",
       "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261?lastModified=1763934636&narHash=sha256-9glbI7f1uU%2ByzQCq5LwLgdZqx6svOhZWkd4JRY265fc%3D"
     },
-    "gnumake@latest": {
+    "gnumake@4.4.1": {
       "last_modified": "2025-11-23T21:50:36Z",
       "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261#gnumake",
       "source": "devbox-search",
@@ -181,7 +181,7 @@
         }
       }
     },
-    "nodejs@latest": {
+    "nodejs@24.11.1": {
       "last_modified": "2025-11-23T21:50:36Z",
       "plugin_version": "0.0.2",
       "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261#nodejs_24",
@@ -262,7 +262,7 @@
         }
       }
     },
-    "rustup@latest": {
+    "rustup@1.28.2": {
       "last_modified": "2025-11-23T21:50:36Z",
       "plugin_version": "0.0.1",
       "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261#rustup",
@@ -311,7 +311,7 @@
         }
       }
     },
-    "sqlite@latest": {
+    "sqlite@3.50.4": {
       "last_modified": "2025-11-23T21:50:36Z",
       "resolved": "github:NixOS/nixpkgs/ee09932cedcef15aaf476f9343d1dea2cb77e261#sqlite",
       "source": "devbox-search",
